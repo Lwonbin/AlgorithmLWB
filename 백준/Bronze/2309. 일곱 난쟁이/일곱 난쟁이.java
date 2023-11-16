@@ -20,7 +20,7 @@ public class Main {
                     for(int z=2; z<9;z++){
                         System.out.println(arr[z]);
                     }
-                    return;
+                    return; //없을경우 틀림 하나를 찾고 종료시켜야 하는듯
                 }
             }
         }
