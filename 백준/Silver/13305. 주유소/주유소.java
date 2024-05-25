@@ -8,8 +8,8 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine()); // 도시의 개수
 
-        int[] dist = new int[N-1];
-        int[] cost = new int[N];
+        long[] dist = new long[N - 1];
+        long[] cost = new long[N];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         StringTokenizer st2 = new StringTokenizer(br.readLine());
@@ -21,8 +21,8 @@ public class Main {
             cost[j] = Integer.parseInt(st2.nextToken());
         }
 
-        int sum = 0;
-        int min = cost[0];
+        long sum = 0;
+        long min = cost[0];
 
         for(int p=0; p<N-1; p++){
             if(p==0){
