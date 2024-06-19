@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -8,27 +7,56 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         String S = br.readLine();
-        HashMap<Integer, Integer> hashMap = new HashMap<>();
-        hashMap.put(0,0);
-        hashMap.put(1,0);
-        for(int i =0; i<S.length(); i++){
-            if(S.charAt(i)=='0'){
-                hashMap.put(0,hashMap.get(0)+1);
-            }else {
-                hashMap.put(1, hashMap.get(1)+1);
-            }
-        }
+
+        int num0=0;
+        int num1=0;
 
 
         StringBuilder sb = new StringBuilder();
-        for(int j=0; j<hashMap.get(0)/2; j++) {
-            sb.append("0");
-        }
-        for(int i=0; i<hashMap.get(1)/2; i++) {
-            sb.append("1");
+
+        for(int i=0; i<S.length(); i++){
+            if(S.charAt(i)=='0'){
+                num0++;
+                sb.append('0');
+
+            }else{
+                num1++;
+                sb.append('1');
+            }
         }
 
-        bw.write(sb+"");
+        num1 /= 2;
+        num0 /= 2;
+
+
+        for(int i=0; i<sb.length(); i++){
+            if(sb.charAt(i)=='1'){
+                sb.setCharAt(i,'2');
+                num1--;
+            }
+
+            if(num1==0){
+                break;
+            }
+        }
+
+        for(int j=sb.length()-1; j>=0; j--) {
+            if (sb.charAt(j) == '0') {
+                sb.setCharAt(j, '2');
+                num0--;
+            }
+
+            if (num0 == 0) {
+                break;
+            }
+        }
+
+        for(int p=0; p<sb.length(); p++){
+            if(sb.charAt(p)=='0' || sb.charAt(p)=='1'){
+                bw.write(sb.charAt(p)+"");
+            }
+        }
+
 
 
 
