@@ -10,13 +10,14 @@ class Solution {
             }
         }
         int[] answer = new int[set.size()];
+
         
-        List<Integer> list = new ArrayList<>(set);
-        Collections.sort(list);
-        
-        for(int i=0; i<list.size(); i++){
-            answer[i] = list.get(i);
+        int j=0;
+        for(Integer a : set){
+            answer[j++] = a;
         }
+        
+        Arrays.sort(answer);
         
         return answer;
     }
