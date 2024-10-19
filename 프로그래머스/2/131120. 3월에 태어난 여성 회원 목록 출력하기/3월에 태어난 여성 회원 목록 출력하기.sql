@@ -1,0 +1,2 @@
+-- 코드를 입력하세요
+SELECT MEMBER_ID, MEMBER_NAME, GENDER, DATE_FORMAT(DATE_OF_BIRTH,'%Y-%m-%d') from MEMBER_PROFILE WHERE DATE_FORMAT(DATE_OF_BIRTH, '%m') = "03" and GENDER = "W" AND TLNO is not null order by member_id
