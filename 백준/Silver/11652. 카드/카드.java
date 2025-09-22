@@ -21,11 +21,11 @@ public class Main {
         int max = Integer.MIN_VALUE;
         long result = 0;
 
-        for(Map.Entry<Long, Integer> entry: map.entrySet()){
-            if(entry.getValue() > max){
+        for(Map.Entry<Long, Integer> entry : map.entrySet()){
+            if(max < entry.getValue()){
                 max = entry.getValue();
                 result = entry.getKey();
-            }else if(entry.getValue() == max){
+            }else if(max == entry.getValue()){
                 result = Math.min(result, entry.getKey());
             }
         }
