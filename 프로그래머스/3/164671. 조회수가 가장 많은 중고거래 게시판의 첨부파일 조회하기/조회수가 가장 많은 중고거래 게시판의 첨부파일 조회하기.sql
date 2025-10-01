@@ -1,0 +1,5 @@
+SELECT CONCAT('/home/grep/src/',A.BOARD_ID,'/', A.FILE_ID,A.FILE_NAME, A.FILE_EXT) as FILE_PATH from USED_GOODS_FILE as A join USED_GOODS_BOARD as B on A.BOARD_ID = B.BOARD_ID
+
+where B.VIEWS in (Select MAX(VIEWS) from USED_GOODS_BOARD)
+
+order by A.FILE_ID DESC;
