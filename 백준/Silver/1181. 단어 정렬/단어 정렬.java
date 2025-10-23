@@ -5,33 +5,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int N = Integer.parseInt(br.readLine());
-        String[] arr = new String[N];
 
-        for(int i = 0; i<N; i++){
-            String string = br.readLine();
-            arr[i] = string;
+        int N = Integer.parseInt(br.readLine());
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for(int i=0; i<N; i++){
+            String str = br.readLine();
+
+            map.put(str, str.length());
         }
 
-        Arrays.sort(arr, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                if(o1.length() == o2.length()){
-                    return o1.compareTo(o2);
-                }else{
-                    return o1.length() - o2.length();
-                }
+
+        List<String> list = new ArrayList<>(map.keySet());
+
+        list.sort((o1, o2) -> {
+            if(map.get(o1) == map.get(o2)){
+                return o1.compareTo(o2);
             }
+
+            return map.get(o1) - map.get(o2);
         });
 
-        bw.write(arr[0]+"\n");
-        for(int j=1; j<N; j++){
-            if(!arr[j].equals(arr[j-1])){
-                bw.write(arr[j]+"\n");
-            }
+        for(int i=0; i<list.size(); i++){
+            bw.write(list.get(i)+"\n");
         }
-
-
 
 
         br.close();
