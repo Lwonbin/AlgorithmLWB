@@ -1,54 +1,49 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
-
-    static int N =0;
-    static int M =0;
-
-    static boolean[] isused;
+    static int N;
+    static int M;
     static int[] arr;
-
+    static boolean[] check;
+    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
-
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
+
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
+        arr = new int[M+1];
+        check = new boolean[N+1];
 
-
-        isused = new boolean[N];
-        arr = new  int[M];
         dfs(0);
 
 
-
-        br.close();
-        bw.flush();
-        bw.close();
-
+        System.out.println(sb);
     }
 
-    public static void dfs(int depth) throws IOException {
+    public static void dfs(int depth) {
+
+
         if(depth == M){
-            for(int val : arr){
-                bw.write(val+" ");
+            for(int i=0; i<M; i++){
+                sb.append(arr[i]+" ");
             }
-            bw.write("\n");
+            sb.append("\n");
             return;
         }
 
-        for(int i=0; i<N; i++){
-            if(!isused[i]){
-                isused[i]= true;
-                arr[depth] = i+1;
-                dfs(depth+1);
-                isused[i] = false;
+        for(int i=1; i<=N; i++){
+            if(!check[i]){
+                check[i] = true;
+                arr[depth] = i;
+                dfs(depth +1);
+                check[i] = false;
             }
         }
-
     }
 }
