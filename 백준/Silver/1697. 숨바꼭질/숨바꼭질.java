@@ -4,7 +4,8 @@ public class Main {
     static int K;
     static int N;
 
-    static int[] visited = new int[100001];
+    static boolean[] visited = new boolean[100001];
+    static int[] dist = new int[100001];
 
     static int result;
 
@@ -31,41 +32,50 @@ public class Main {
 
     }
 
-    private static int bfs(int node){
+    private static int bfs(int node) {
         Queue<Integer> queue = new LinkedList<>();
-
         queue.add(node);
-        int index = node;
-        int n = 0;
+        visited[node] = true;
+        dist[node] = 0;
 
-        visited[index] = 1;
 
         while(!queue.isEmpty()){
-            n = queue.remove();
+            int cur = queue.poll();
 
-
-            if(n == K){
-                return visited[n] -1;
+            if(cur == K){
+                return dist[cur];
             }
 
-            if(n-1 >=0 && visited[n-1] == 0){
-                visited[n-1] = visited[n]+1;
-                queue.add(n-1);
+            if(cur+1>=0 && cur+1 <=100000){
+                if(!visited[cur+1]){
+                    queue.add(cur+1);
+                    visited[cur+1] = true;
+                    dist[cur+1] = dist[cur]+1;
+                }
 
             }
 
-            if(n+1<=100000 && visited[n+1] == 0){
-                visited[n+1] = visited[n]+1;
-                queue.add(n+1);
+            if(cur-1 >=0 && cur-1 <=100000){
+                if(!visited[cur-1]) {
+                    queue.add(cur - 1);
+                    visited[cur-1] = true;
+                    dist[cur - 1] = dist[cur] + 1;
+                }
             }
 
-            if(n*2 <= 100000 && visited[n*2]==0){
-                visited[n*2] = visited[n] +1;
-                queue.add(n*2);
+            if(cur * 2 >=0 && cur*2 <=100000){
+                if(!visited[cur*2]){
+                    queue.add(cur*2);
+                    visited[cur*2] = true;
+                    dist[cur*2] = dist[cur] + 1;
+                }
             }
+
+
         }
 
         return -1;
+
 
     }
 }
