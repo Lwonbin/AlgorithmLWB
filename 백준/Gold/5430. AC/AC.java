@@ -8,65 +8,71 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        for (int i = 0; i < N; i++) {
-            String AC = br.readLine();
+        for(int i=0; i<N; i++){
+
+            String def = br.readLine();
+
             int arrN = Integer.parseInt(br.readLine());
+            Deque<String> deque = new ArrayDeque<>();
             String arr = br.readLine();
-
-            arr = arr.replace("]","");
-            arr = arr.replace("[","");
-            Queue<Integer> queue = new LinkedList<>();
-            Deque<Integer> deque = new ArrayDeque<>();
+            String subArr = arr.substring(1,arr.length()-1);
+            String[] ARR = subArr.split(",");
 
 
-            for (String c : arr.split(",")) {
-                if (!c.isEmpty()){
-                    deque.add(Integer.valueOf(c));
+            for(int j=0; j<ARR.length; j++){
+                if(!ARR[j].equals("R") && !ARR[j].equals("D") && !ARR[j].isEmpty()){
+                    deque.addLast(ARR[j]);
                 }
             }
 
-            boolean bl = true;
-            boolean isright = true;
-            for (char c : AC.toCharArray()) {
-                if (c == 'R') {
-                    isright = !isright;
-                }else if(c=='D') {
-                    if (!deque.isEmpty() && isright) {
-                        deque.pollFirst();
-                    }else if(!deque.isEmpty() && !isright){
-                        deque.pollLast();
-                    } else{
-                        bl = false;
+            int curDist = 1;
+            boolean check = true;
 
+            for(int j=0; j<def.length(); j++){
+                if(def.charAt(j)=='R'){
+                    curDist = -curDist;
+                }else if(def.charAt(j)=='D'){
+                    if(deque.isEmpty()){
+                        bw.write("error"+"\n");
+                        check = false;
+                        break;
+                    }
+
+                    if(curDist == 1){
+                        deque.pollFirst();
+                    }else{
+                        deque.pollLast();
                     }
                 }
             }
-            if(!bl){
-                bw.write("error");
-            }else {
-                if (!isright) {
+            if(check){
+                if(curDist==1){
                     bw.write("[");
-                    while (!deque.isEmpty()) {
-                        bw.write(String.valueOf(deque.pollLast()));
-                        if (!deque.isEmpty()) {
-                            bw.write(",");
+                    while(!deque.isEmpty()){
+                        if(deque.size()==1){
+                            bw.write(deque.pollFirst());
+                            break;
                         }
+                        bw.write(deque.pollFirst() +",");
                     }
                     bw.write("]");
                 }else{
                     bw.write("[");
-                    while (!deque.isEmpty()) {
-                        bw.write(String.valueOf(deque.pollFirst()));
-                        if (!deque.isEmpty()) {
-                            bw.write(",");
+                    while(!deque.isEmpty()){
+                        if(deque.size()==1){
+                            bw.write(deque.pollLast());
+                            break;
                         }
+                        bw.write(deque.pollLast() +",");
                     }
                     bw.write("]");
-
                 }
+
+                bw.write("\n");
             }
-            bw.newLine();
+
         }
+
 
         br.close();
         bw.flush();
