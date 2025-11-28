@@ -41,19 +41,18 @@ class Solution {
         while(!pq.isEmpty()){
             Graph cur = pq.poll();
             int curNode = cur.to;
-            int curW = cur.weight;
+            int curWeight = cur.weight;
             
-            if(curW > dist[curNode]) continue;
+            if(curWeight > dist[curNode]) continue;
             
             for(Graph nextNode : list[curNode]){
                 int nextVillage = nextNode.to;
-                int nextWeight = curW + nextNode.weight;
+                int nextValue = nextNode.weight + curWeight;
                 
-                if(nextWeight < dist[nextVillage]){
-                    dist[nextVillage] = nextWeight;
-                    pq.add(new Graph(nextVillage, nextWeight));
+                if(nextValue < dist[nextVillage]){
+                    dist[nextVillage] = nextValue;
+                    pq.add(new Graph(nextVillage, nextValue));
                 }
-                
             }
         }
         
