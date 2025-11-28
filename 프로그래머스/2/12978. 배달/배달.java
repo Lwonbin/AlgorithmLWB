@@ -6,7 +6,7 @@ class Solution {
         int to;
         int weight;
         
-        Graph(int to, int weight){
+        public Graph(int to, int weight){
             this.to = to;
             this.weight = weight;
         }
@@ -14,10 +14,10 @@ class Solution {
     
     public int solution(int N, int[][] road, int K) {
         int answer = 0;
-
+        
         List<Graph>[] list = new ArrayList[N+1];
         
-        for(int i=0; i<N+1; i++){
+        for(int i=1; i<=N ;i++){
             list[i] = new ArrayList<>();
         }
         
@@ -26,47 +26,45 @@ class Solution {
             int b = road[i][1];
             int w = road[i][2];
             
-            Graph graph1 = new Graph(a, w);
-            Graph graph2 = new Graph(b, w);
-            
-            list[a].add(graph2);
-            list[b].add(graph1);
+            list[a].add(new Graph(b,w));
+            list[b].add(new Graph(a,w));
         }
         
-        int[] dist = new int[N+1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[1] = 0;
+        PriorityQueue<Graph> pq = new PriorityQueue<>((o1, o2) -> o1.weight - o2.weight);
         
-        PriorityQueue<Graph> pq = new PriorityQueue<>(
-                (o1, o2) -> o1.weight - o2.weight);
+        int[] dist = new int[N+1];
+        Arrays.fill(dist ,Integer.MAX_VALUE);
+        dist[1] = 0;
         
         pq.add(new Graph(1,0));
         
         while(!pq.isEmpty()){
             Graph cur = pq.poll();
-            int to = cur.to;
-            int w = cur.weight;
+            int curNode = cur.to;
+            int curW = cur.weight;
             
-            if(w > dist[to]) continue;
+            if(curW > dist[curNode]) continue;
             
-            for(Graph next : list[to]){
-                int nextVillage = next.to;
-                int nextValue = w + next.weight;
+            for(Graph nextNode : list[curNode]){
+                int nextVillage = nextNode.to;
+                int nextWeight = curW + nextNode.weight;
                 
-                if(nextValue < dist[nextVillage]){
-                    dist[nextVillage] = nextValue;
-                    pq.add(new Graph(nextVillage, nextValue));
-                    
+                if(nextWeight < dist[nextVillage]){
+                    dist[nextVillage] = nextWeight;
+                    pq.add(new Graph(nextVillage, nextWeight));
                 }
+                
             }
         }
         
+        
         for(int i=1; i<=N; i++){
-            if(dist[i] <= K){
+            if(dist[i] != -1 && dist[i] <= K){
                 answer++;
             }
         }
-
+        
+        
         return answer;
     }
     
