@@ -1,86 +1,100 @@
-import java.io.*;
-import java.util.StringTokenizer;
+    import java.io.*;
+    import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    public class Main {
+        static int[] Switch;
 
-        int N = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-
-        int studentNumber = Integer.parseInt(br.readLine());
-        int[][] studentArr = new int[studentNumber][2];
-        for (int j = 0; j < studentNumber; j++) {
-            StringTokenizer st2 = new StringTokenizer(br.readLine());
-            studentArr[j][0] = Integer.parseInt(st2.nextToken());
-            studentArr[j][1] = Integer.parseInt(st2.nextToken());
-
-        }
+        public static void main(String[] args) throws IOException {
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
-        for (int p = 0; p < studentNumber; p++) {
-            int count = 0;
-            int A = studentArr[p][1] - 1;
+            int N = Integer.parseInt(br.readLine());
 
-            if (studentArr[p][0] == 1) {
-                for (int q = 0; q < arr.length; q++) {
-                    if ((q + 1) % studentArr[p][1] == 0) {
-                        if (arr[q] == 0) {
-                            arr[q] = 1;
-                        } else {
-                            arr[q] = 0;
+            Switch = new int[N+1];
+
+            StringTokenizer st = new StringTokenizer(br.readLine());
+
+            for(int i=1; i<N+1; i++){
+                Switch[i] = Integer.parseInt(st.nextToken());
+            }
+
+            Switch[0] = -100;
+
+            int cnt = Integer.parseInt(br.readLine());
+
+
+            for(int i=0; i<cnt; i++){
+                st = new StringTokenizer(br.readLine());
+                int sex = Integer.parseInt(st.nextToken());
+                int count = Integer.parseInt(st.nextToken());
+
+
+                if(sex == 1){
+                    int idx = 1;
+                    while(true){
+                        if(count * idx <= N){
+                            if(Switch[count * idx] == 0){
+                                Switch[count * idx] = 1;
+                            }else if(Switch[count * idx] == 1){
+                                Switch[count * idx] = 0;
+                            }
+                        }else{
+                            break;
                         }
+                        idx++;
                     }
-                }
+                }else{
+                    int idx = 1;
+                    while(true) {
 
-            } else if (studentArr[p][0] == 2) {
-
-                if (arr.length / 2 > studentArr[p][1]) {
-                    count = studentArr[p][1] - 1;
-                } else {
-                    count = arr.length - studentArr[p][1];
-                }
-                if (arr[A] == 0) {
-                    arr[A] = 1;
-                } else {
-                    arr[A] = 0;
-                }
-
-                for (int x = 1; x < count + 1; x++) {
-                    if (arr[A - x] == arr[A + x]) {
-                        if (arr[A - x] == 0) {
-                            arr[A - x] = 1;
-                            arr[A + x] = 1;
-                        } else {
-                            arr[A - x] = 0;
-                            arr[A + x] = 0;
+                        if(count+idx > N || count - idx < 1){
+                            break;
                         }
-                    } else {
-                        break;
+
+                        if (Switch[count + idx] == Switch[count - idx]) {
+                            idx++;
+                        } else {
+                            break;
+                        }
+
                     }
+
+                    ChangeSwitch(idx-1, count);
+
                 }
 
             }
-        }
 
+            int cur = 0;
+            for(int i=1; i<=N; i++){
 
-        for (int t =0; t < N; t++) {
-            bw.write(arr[t] + " ");
-            if ((t+1) % 20 == 0) {
-                bw.newLine();
+                System.out.print(Switch[i] +" ");
+                cur++;
+
+                if(cur % 20 == 0){
+                    System.out.println();
+                }
+
             }
+
+            br.close();
+
         }
 
+        static void ChangeSwitch(int idx, int count){
+            int min = count - idx;
+            int max = count + idx;
 
-        br.close();
-        bw.flush();
-        bw.close();
+
+            for(int i= min; i<=max; i++){
+                if(Switch[i] == 0){
+                    Switch[i] = 1;
+                }else if(Switch[i] == 1){
+                    Switch[i] = 0;
+                }
+            }
+
+        }
     }
-}
