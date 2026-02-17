@@ -1,62 +1,55 @@
-import java.io.*;
-import java.util.*;
+    import java.io.*;
+    import java.util.*;
 
+    public class Main {
 
-public class Main {
-    public static void main(String[] args) throws IOException {
+        public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+            String str = br.readLine();
+            String boom = br.readLine();
 
-        Stack<Character> stack = new Stack<>();
-        String str = br.readLine();
+            Stack<Character> stack = new Stack<>();
 
-        String target = br.readLine();
-        for(int i=0; i<str.length(); i++){
-            char cur = str.charAt(i);
-            stack.push(cur);
-            boolean check = false;
+            int idx = 0;
+            while(true){
+                stack.push(str.charAt(idx));
 
-            String curString = "";
-
-            if(stack.size() >= target.length() && cur == target.charAt(target.length()-1)){
-                for(int j=target.length()-1; j>=0; j--){
-                    if(!stack.isEmpty() && stack.peek() == target.charAt(j)){
-                        curString = stack.pop()+curString;
-                    }else if(!stack.isEmpty() && stack.peek() != target.charAt(j)){
-                        curString = stack.pop() + curString;
-                        check = true;
-                        break;
+                if(!stack.isEmpty() && stack.peek() == boom.charAt(boom.length()-1)){
+                    String cur = "";
+                    for(int i=0; i<boom.length(); i++){
+                        if(!stack.isEmpty()){
+                            cur = stack.pop() + cur;
+                        }
+                    }
+                    if(!cur.equals(boom)){
+                        for(int i=0; i<cur.length(); i++){
+                            stack.push(cur.charAt(i));
+                        }
                     }
                 }
-            }
-            if(check){
-                for(int j=0; j<curString.length(); j++){
-                    stack.push(curString.charAt(j));
+
+                idx++;
+
+                if(idx >= str.length()){
+                    break;
                 }
             }
 
 
-        }
-
-
-        if(stack.isEmpty()){
-            System.out.println("FRULA");
-        }else{
             StringBuilder sb = new StringBuilder();
-            while(!stack.isEmpty()){
-                sb.append(stack.pop());
+            if(!stack.isEmpty()){
+                for(char ch : stack){
+                    sb.append(ch);
+                }
+            }else{
+                sb.append("FRULA");
             }
-            System.out.println(sb.reverse().toString());
+
+            System.out.println(sb.toString());
+
+
         }
-
-
-
-
-
-        br.close();
-        bw.flush();
-        bw.close();
     }
-}
