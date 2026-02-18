@@ -1,40 +1,47 @@
-import java.io.*;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+    import java.io.*;
+    import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    public class Main {
 
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+        public static void main(String[] args) throws IOException {
 
-        Queue<Integer> queue = new LinkedList<>();
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        for(int i=1; i<=N; i++){
-            queue.add(i);
+           StringTokenizer st = new StringTokenizer(br.readLine());
+
+           int N = Integer.parseInt(st.nextToken());
+           int M = Integer.parseInt(st.nextToken());
+
+           Queue<Integer> queue = new ArrayDeque<>();
+
+           for(int i=0; i<N; i++){
+               queue.add(i+1);
+           }
+
+           int idx = 1;
+
+           StringBuilder sb = new StringBuilder();
+           sb.append("<");
+           while(!queue.isEmpty()){
+               if(idx % M == 0){
+                   sb.append(queue.poll());
+                   if(!queue.isEmpty()){
+                       sb.append(", ");
+                   }
+               }else{
+                   queue.add(queue.poll());
+               }
+
+
+
+               idx++;
+           }
+
+            sb.append(">");
+            System.out.println(sb);
+
+
+
         }
-
-
-        sb.append("<");
-
-        for(int i=1; i<N; i++){
-            for(int j = 1; j<K; j++){
-                queue.offer(queue.poll());
-            }
-            sb.append(queue.poll()).append(", ");
-        }
-        sb.append(queue.poll()).append(">");
-
-        bw.write(sb.toString());
-
-
-        br.close();
-        bw.flush();
-        bw.close();
     }
-}
