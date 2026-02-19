@@ -1,54 +1,58 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
+    import java.io.*;
+    import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
+    public class Main {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        static class Meeting{
+            int s,e;
 
-        int N = Integer.parseInt(br.readLine());
-
-        int[][] arr = new int[N][2];
-
-        for(int i=0; i<N; i++){
-            StringTokenizer st = new StringTokenizer(br.readLine());
-
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-
-            arr[i][0] = start;
-            arr[i][1] = end;
-        }
-
-        Arrays.sort(arr, (o1, o2) -> {
-            if(o1[1]==o2[1]) return o1[0]-o2[0];
-            return o1[1]-o2[1];
-        });
-
-
-
-        int result = 1;
-
-        int end = arr[0][1];
-
-        for(int i=1; i<N; i++){
-            if(arr[i][0] >= end){
-                result++;
-                end = arr[i][1];
+            Meeting(int s, int e){
+                this.s = s;
+                this.e = e;
             }
         }
 
+        public static void main(String[] args) throws IOException {
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
-        System.out.println(result);
+           int N = Integer.parseInt(br.readLine());
+
+           Meeting[] meeting = new Meeting[N];
+
+           for(int i=0; i<N; i++){
+               StringTokenizer st = new StringTokenizer(br.readLine());
+
+               int start = Integer.parseInt(st.nextToken());
+               int end = Integer.parseInt(st.nextToken());
+               meeting[i] = new Meeting(start, end);
+           }
 
 
 
+           Arrays.sort(meeting, (a,b) ->{
+               if(a.e == b.e){
+                   return a.s - b.s;
+               }
+               return a.e - b.e;
+           });
+
+
+           int endTime = 0;
+           int answer = 0;
+           for(int i=0; i<N; i++){
+               if(meeting[i].s >= endTime){
+                   answer++;
+                   endTime = meeting[i].e;
+
+               }
+           }
+
+            System.out.println(answer);
 
 
 
-        br.close();
+        }
     }
-}
