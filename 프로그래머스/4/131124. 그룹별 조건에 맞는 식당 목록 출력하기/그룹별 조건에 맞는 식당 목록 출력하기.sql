@@ -1,13 +1,16 @@
--- 코드를 입력하세요
-select A.MEMBER_NAME, B.REVIEW_TEXT, DATE_FORMAT(B.REVIEW_DATE, '%Y-%m-%d')as REVIEW_DATE from MEMBER_PROFILE AS A join REST_REVIEW AS B on A.MEMBER_ID = B.MEMBER_ID where B.MEMBER_ID =(
+select P.MEMBER_NAME, R.REVIEW_TEXT, DATE_FORMAT(R.REVIEW_DATE, "%Y-%m-%d") as REVIEW_DATE from MEMBER_PROFILE as P
+join REST_REVIEW AS R on P.MEMBER_ID = R.MEMBER_ID
 
-SELECT A.MEMBER_ID FROM MEMBER_PROFILE  as A join REST_REVIEW as B on A.MEMBER_ID = B.MEMBER_ID 
-
-group by A.MEMBER_ID
-order by count(B.MEMBER_ID) DESC
-
-limit 1
+where P.MEMBER_ID in (
+    select MEMBER_ID from REST_REVIEW
+    group by MEMBER_ID
+    having count(*) = (
+        select max(cnt)
+        from (select count(*) as cnt 
+             from REST_REVIEW
+              group by MEMBER_ID
+             ) X
+    )    
 )
 
-order by B.REVIEW_DATE, B.REVIEW_TEXT
-;
+order by R.REVIEW_DATE, R.REVIEW_TEXT
