@@ -1,60 +1,54 @@
 import java.util.*;
+
 class Solution {
     static int[] dx = {-1,1,0,0};
     static int[] dy = {0,0,-1,1};
-    static int answer = 0;
     
     static int[][] visited;
-    static int[][] map;
-    static int n,m;
+    
+    static int N,M;
     
     public int solution(int[][] maps) {
-        n = maps.length;
-        m = maps[0].length;
+        N = maps.length;
+        M = maps[0].length;
+        visited = new int[N][M];
         
-        visited = new int[n][m];
-        
-        bfs(maps, visited);
-        
-        answer = visited[maps.length-1][maps[0].length-1];
-        
-        if(answer==0){
-            return -1;
+        for(int i=0; i<N; i++){
+            Arrays.fill(visited[i],-1);
         }
         
+        bfs(0,0, maps);
         
-        return answer;
+        return visited[N-1][M-1];
+        
     }
-    
-    public static void bfs(int[][] maps, int[][] visited){
-        Queue<int[]> queue = new LinkedList<>();
-        
-        int x=0;
-        int y =0;
+    static void bfs(int x, int y, int[][] maps){
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[]{x,y});
         visited[x][y] = 1;
         
-        queue.add(new int[]{x,y});
-        
-        
         while(!queue.isEmpty()){
-            int[] current = queue.poll();
-            int curx = current[0];
-            int cury = current[1];
+            int[] cur = queue.poll();
+            int curX = cur[0];
+            int curY = cur[1];
+            
+            if(curX == N-1 && curY == M-1){
+                break;
+            }
             
             for(int i=0; i<4; i++){
-                int mx = curx+  dx[i];
-                int my = cury + dy[i];
+                int nx = curX + dx[i];
+                int ny = curY + dy[i];
                 
-                if(mx<0 || my<0 || mx>=n || my>=m){
-                    continue;
+                if(nx>=0 && ny>=0 && nx<N && ny<M){
+                    if(visited[nx][ny] == -1 && maps[nx][ny] == 1){
+                        visited[nx][ny] = visited[curX][curY] +1;
+                        queue.add(new int[]{nx,ny});
+                    }
                 }
                 
-                if(visited[mx][my]==0 && maps[mx][my]==1){
-                    visited[mx][my] = visited[curx][cury]+1;
-                    queue.add(new int[]{mx,my});
-                }
             }
         }
-        
     }
+    
 }
