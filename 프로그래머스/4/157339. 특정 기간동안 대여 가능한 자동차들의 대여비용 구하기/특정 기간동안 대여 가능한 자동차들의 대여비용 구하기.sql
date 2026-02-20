@@ -1,0 +1,29 @@
+
+select P.CAR_ID, P.CAR_TYPE, FLOOR(Q.FEE) as FEE  from
+
+(select A.car_id as CAR_ID, A.car_type as CAR_TYPE from
+ 
+CAR_RENTAL_COMPANY_CAR A where 
+(A.car_type = '세단' OR A.car_type = 'SUV')
+AND NOT EXISTS (
+      SELECT 1
+      FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY H
+      WHERE H.CAR_ID = A.CAR_ID
+        AND H.START_DATE <= '2022-11-30'
+        AND H.END_DATE   >= '2022-11-01'
+ )
+ )as P
+  
+
+join 
+
+(select A.CAR_ID, A.DAILY_FEE * ((100-B.DISCOUNT_RATE)/100) *30 AS FEE from CAR_RENTAL_COMPANY_CAR A join CAR_RENTAL_COMPANY_DISCOUNT_PLAN B on A.CAR_TYPE = B.CAR_TYPE
+where B.DURATION_TYPE = '30일 이상') AS Q 
+
+on P.CAR_ID = Q.CAR_ID
+
+WHERE FEE >= 500000 AND FEE <2000000
+
+
+
+;
