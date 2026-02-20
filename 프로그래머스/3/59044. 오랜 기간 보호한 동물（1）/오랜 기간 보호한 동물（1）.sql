@@ -1,9 +1,13 @@
--- 코드를 입력하세요
-select D.NAME, D.DATETIME from ANIMAL_INS D join 
 
-(SELECT A.ANIMAL_ID as ANI_ID, TIMESTAMPDIFF(SECOND, A.DATETIME, B.DATETIME) from ANIMAL_INS as A left join ANIMAL_OUTS AS B on A.ANIMAL_ID = B.ANIMAL_ID where B.DATETIME IS NULL ) as C on D.ANIMAL_ID = C.ANI_ID
+select A.NAME as ANIMAL_NAME, A.DATETIME as DATETIME from ANIMAL_INS A left join ANIMAL_OUTS B 
+
+on A.ANIMAL_ID = B.ANIMAL_ID
+
+where B.ANIMAL_ID is null 
+
+order by A.DATETIME
+
+limit 3
 
 
-order by D.DATETIME
-
-LIMIT 3
+;
