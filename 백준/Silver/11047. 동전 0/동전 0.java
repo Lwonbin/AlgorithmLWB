@@ -1,48 +1,50 @@
-import java.io.*;
-import java.util.*;
+    import java.io.*;
+    import java.sql.SQLOutput;
+    import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    public class Main {
 
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        public static void main(String[] args) throws IOException {
 
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int[] arr = new int[N];
+            StringTokenizer st = new StringTokenizer(br.readLine());
 
-        for(int i=0; i<N; i++){
-            int A = Integer.parseInt(br.readLine());
-            arr[i] = A;
-        }
+            int N = Integer.parseInt(st.nextToken());
+            int K = Integer.parseInt(st.nextToken());
 
-        int cur = 0;
-        int dir = N-1;
-
-        int count = 0;
-        while(cur != K){
-            if(cur + arr[dir] > K){
-                dir--;
-            }else if(cur + arr[dir] <= K){
-                cur += arr[dir];
-                count++;
+            int[] money = new int[N];
+            for(int i=N-1; i>=0; i--){
+                money[i] = Integer.parseInt(br.readLine());
             }
 
+
+            int count = 0;
+            for(int i=0; i<N; i++){
+
+                int cur = money[i];
+                while(true){
+                    if(K == 0){
+                        break;
+                    }
+
+                    if(K >= cur){
+                        K -= cur;
+                        count++;
+                    }else{
+                        break;
+                    }
+                }
+            }
+
+            System.out.println(count);
+
+
+
+
+
         }
 
-
-        System.out.println(count);
-
-
-
-
-        br.close();
-        bw.flush();
-        bw.close();
     }
-}
