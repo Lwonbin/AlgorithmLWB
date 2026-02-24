@@ -1,39 +1,38 @@
-import java.io.*;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+    import java.io.*;
+    import java.sql.SQLOutput;
+    import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int sum=0;
+    public class Main {
 
 
-        int N = Integer.parseInt(br.readLine());
-        int[] arr1 = new int[N];
-        int[] arr2 = new int[N];
+        public static void main(String[] args) throws IOException {
 
-        StringTokenizer st1 = new StringTokenizer(br.readLine());
-        StringTokenizer st2 = new StringTokenizer(br.readLine());
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        for(int i=0; i<N; i++){
-            arr1[i] = Integer.parseInt(st1.nextToken());
-            arr2[i] = Integer.parseInt(st2.nextToken());
+            int N = Integer.parseInt(br.readLine());
+
+            int[] A = new int[N];
+            int[] B = new int[N];
+
+            StringTokenizer stA = new StringTokenizer(br.readLine());
+            StringTokenizer stB = new StringTokenizer(br.readLine());
+
+            for(int i=0; i<N; i++){
+                A[i] = Integer.parseInt(stA.nextToken());
+                B[i] = Integer.parseInt(stB.nextToken());
+            }
+
+            Arrays.sort(A);
+            Arrays.sort(B);
+
+            int answer = 0;
+            for(int i=0; i<N; i++){
+                answer += A[i] * B[N-i-1];
+            }
+
+            System.out.println(answer);
+
         }
 
-        Arrays.sort(arr1);
-        Arrays.sort(arr2);
-
-
-
-        for(int j=0; j<N; j++){
-            sum += (arr1[j]*arr2[N-j-1]);
-        }
-
-        bw.write(sum+"");
-
-        bw.flush();
-        bw.close();
-        br.close();
     }
-}
