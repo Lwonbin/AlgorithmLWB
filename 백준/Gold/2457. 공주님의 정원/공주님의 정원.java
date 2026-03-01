@@ -4,79 +4,87 @@
 
     public class Main {
 
-        static class flower{
+        static class Date{
             int start;
             int end;
 
-            flower(int start, int end){
+            Date(int start, int end){
                 this.start = start;
                 this.end = end;
             }
         }
-
         public static void main(String[] args) throws IOException {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
-            int answer = 0;
-
             int N = Integer.parseInt(br.readLine());
 
-            List<flower> garden = new ArrayList<>();
+            List<Date> list = new ArrayList<>();
 
             for(int i=0; i<N; i++){
                 StringTokenizer st = new StringTokenizer(br.readLine());
-                String curSM = st.nextToken();
-                String curSD = st.nextToken();
-                String curEM = st.nextToken();
-                String curED = st.nextToken();
+                String StartMon = st.nextToken();
+                String StartDay = st.nextToken();
+                String EndMon = st.nextToken();
+                String EndDay = st.nextToken();
 
-                if(curSD.length() == 1){
-                    curSD = "0"+curSD;
+                if(StartDay.length() == 1){
+                    StartDay = '0'+StartDay;
                 }
-                if(curED.length() == 1){
-                    curED = "0"+curED;
+                if(EndDay.length() == 1){
+                    EndDay = '0'+EndDay;
                 }
 
-                int curS = Integer.parseInt(curSM+curSD);
-                int curE = Integer.parseInt(curEM+curED);
-
-                flower curFlower = new flower(curS, curE);
-                garden.add(curFlower);
+                int start = Integer.parseInt(StartMon + StartDay);
+                int end = Integer.parseInt(EndMon + EndDay);
+                Date curDate = new Date(start, end);
+                list.add(curDate);
             }
 
-            Collections.sort(garden, (o1,o2) -> {
-                if(o1.start == o2.start){
-                    return o2.end - o1.end;
+            Collections.sort(list, (o1, o2) ->{
+                if(o1.start==o2.start){
+                    return Integer.compare(o2.end, o1.end);
                 }
-                return o1.start - o2.start;
+                return Integer.compare(o1.start, o2.start);
             });
+
+
+
+            int curEnd = 301;
+            int endTarget = 1201;
 
             int count = 0;
 
-            int cur = 301;
             int idx = 0;
 
-            while(cur < 1201){
-                int maxEnd = cur;
+            while(true){
+                int maxEnd = curEnd;
 
-                while(idx < N && garden.get(idx).start <= cur){
-                    maxEnd = Math.max(maxEnd, garden.get(idx).end);
+                while(idx<N && list.get(idx).start <= curEnd){
+                    maxEnd = Math.max(maxEnd, list.get(idx).end);
                     idx++;
                 }
+                if(maxEnd >=endTarget){
+                    count++;
+                    break;
+                }
 
-                if(maxEnd == cur){
+                if(maxEnd == curEnd){
                     System.out.println(0);
                     return;
                 }
 
+                curEnd = maxEnd;
                 count++;
-                cur = maxEnd;
+
             }
 
+
             System.out.println(count);
+
+
 
 
 
