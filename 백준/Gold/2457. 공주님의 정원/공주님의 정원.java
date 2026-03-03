@@ -4,85 +4,83 @@
 
     public class Main {
 
-        static class Date{
+        static class flower{
             int start;
             int end;
 
-            Date(int start, int end){
+            flower(int start, int end){
                 this.start = start;
                 this.end = end;
             }
         }
+
         public static void main(String[] args) throws IOException {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
+
             int N = Integer.parseInt(br.readLine());
 
-            List<Date> list = new ArrayList<>();
+            List<flower> list = new ArrayList<>();
 
             for(int i=0; i<N; i++){
                 StringTokenizer st = new StringTokenizer(br.readLine());
-                String StartMon = st.nextToken();
-                String StartDay = st.nextToken();
-                String EndMon = st.nextToken();
-                String EndDay = st.nextToken();
 
-                if(StartDay.length() == 1){
-                    StartDay = '0'+StartDay;
+                String sm = st.nextToken();
+                String sd = st.nextToken();
+                String em = st.nextToken();
+                String ed = st.nextToken();
+
+                if(sd.length() == 1){
+                    sd = '0'+sd;
                 }
-                if(EndDay.length() == 1){
-                    EndDay = '0'+EndDay;
+                if(ed.length() == 1){
+                    ed = '0'+ed;
                 }
 
-                int start = Integer.parseInt(StartMon + StartDay);
-                int end = Integer.parseInt(EndMon + EndDay);
-                Date curDate = new Date(start, end);
-                list.add(curDate);
+                int start = Integer.parseInt(sm+sd);
+                int end = Integer.parseInt(em+ed);
+                list.add(new flower(start, end));
             }
 
             Collections.sort(list, (o1, o2) ->{
-                if(o1.start==o2.start){
+                if(o1.start == o2.start){
                     return Integer.compare(o2.end, o1.end);
                 }
                 return Integer.compare(o1.start, o2.start);
             });
 
 
-
-            int curEnd = 301;
-            int endTarget = 1201;
-
-            int count = 0;
+            int cur = 301;
+            int target = 1201;
 
             int idx = 0;
+            int count = 0;
+            while(cur < target){
 
-            while(true){
-                int maxEnd = curEnd;
+                int maxEnd = cur;
 
-                while(idx<N && list.get(idx).start <= curEnd){
+
+                while(idx < N && list.get(idx).start <= cur){
                     maxEnd = Math.max(maxEnd, list.get(idx).end);
                     idx++;
                 }
-                if(maxEnd >=endTarget){
-                    count++;
-                    break;
-                }
 
-                if(maxEnd == curEnd){
+
+                if(maxEnd == cur){
                     System.out.println(0);
                     return;
                 }
 
-                curEnd = maxEnd;
+                cur = maxEnd;
                 count++;
-
             }
 
 
             System.out.println(count);
+
 
 
 
