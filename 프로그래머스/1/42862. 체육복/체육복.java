@@ -10,7 +10,7 @@ class Solution {
         
         
         for(int i=1; i<=n; i++){
-            arr[i] = 1;
+            arr[i] = 0;
         }
         
         for(int j=0; j<lost.length; j++){
@@ -27,43 +27,26 @@ class Solution {
             System.out.print(arr[i] +" ");
         }
         
-
+        
         
         for(int i=1; i<=n; i++){
-            if(i==n && arr[i] == 2){
-                if(arr[i-1] == 0){
-                    arr[i-1] += 1;
-                    arr[i] -= 1;
-                }
-            }else if(i==1 && arr[i] == 2){
-                if(arr[i+1] == 0){
-                    arr[i+1] += 1;
-                    arr[i] -=1;
+            if(arr[i] == -1){
+                if(i-1>=1 && arr[i-1] > 0){
+                    arr[i-1]--;
+                    arr[i]++;
+                }else if(i+1 <=n && arr[i+1] >0){
+                    arr[i+1]--;
+                    arr[i]++;
                 }
             }
-            
-            else{
-                if(arr[i] == 2){
-                if(arr[i-1] == 0){
-                    arr[i-1] += 1;
-                    arr[i] -= 1;
-                }else if(arr[i+1] == 0){
-                    arr[i+1] += 1;
-                    arr[i] -=1;
-                }
-                }
-            }
-            
-            
-            
         }
         
+        
         for(int i=1; i<=n; i++){
-            if(arr[i] == 1 || arr[i] == 2){
+            if(arr[i] >=0){
                 answer++;
             }
         }
-        
         
         
         
