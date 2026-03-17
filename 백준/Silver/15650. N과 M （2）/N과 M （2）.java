@@ -1,55 +1,53 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
+    import java.io.*;
+    import java.sql.SQLOutput;
+    import java.util.*;
 
-public class Main {
+    public class Main {
 
-    static int N,M;
-    static int[] arr;
-    static boolean[] visited;
-    static StringBuilder sb = new StringBuilder();
-    public static void main(String[] args) throws IOException {
+        static int N,M;
+        static int[] arr;
 
+        static boolean[] visited;
 
+        public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        arr = new int[M+1];
-        visited = new boolean[N+1];
 
-        dfs(0);
+            StringTokenizer st = new StringTokenizer(br.readLine());
 
-        System.out.println(sb);
+            N = Integer.parseInt(st.nextToken());
+            M = Integer.parseInt(st.nextToken());
 
-    }
-
-
-    static void dfs(int depth) {
-
-        if (depth == M) {
-            for (int i = 0; i < M; i++) {
-                sb.append(arr[i] + " ");
-            }
-            sb.append("\n");
-            return;
+            arr = new int[M];
+            visited = new boolean[N];
+            dfs(0, 0);
         }
 
 
-
-        for(int i=1; i<=N; i++){
-            if(!visited[i]){
-                if(depth == 0 || arr[depth-1] < i) {
-                    visited[i] = true;
-                    arr[depth] = i;
-                    dfs(depth + 1);
-                    visited[i] = false;
+        static void dfs(int depth, int start){
+            if(depth == M){
+                for(int i=0; i<M; i++){
+                    System.out.print(arr[i] + " ");
                 }
+                System.out.println();
+                return;
+            }
+
+            for(int i=start; i<N; i++){
+                if(visited[i]) continue;
+
+                visited[i] = true;
+                arr[depth] = i+1;
+                dfs(depth+1, i+1);
+                visited[i] =false;
+
             }
         }
+
+
+
+
     }
-}
