@@ -1,52 +1,70 @@
-import java.io.*;
-import java.util.StringTokenizer;
+    import java.io.*;
+    import java.sql.SQLOutput;
+    import java.util.*;
 
-public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    static int[] arr;
-    static int K=0;
-    static boolean[] check;
-    public static void main(String[] args) throws IOException {
+    public class Main {
 
-        StringBuilder sb = new StringBuilder();
+        static StringBuilder sb;
+        public static void main(String[] args) throws IOException {
 
-        while(true){
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            K = Integer.parseInt(st.nextToken());
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-            if(K==0){
-                break;
-            }else{
-                arr = new int[K];
-                check = new boolean[K];
+            sb = new StringBuilder();
 
-                for(int i=0; i<K; i++){
-                    arr[i] = Integer.parseInt(st.nextToken());
+            while(true){
+                String[] lotto = br.readLine().split(" ");
+                if(lotto[0].equals("0")){
+                    break;
                 }
-                f(0,0);
-                System.out.println();
+
+                List<Integer> list = new ArrayList<>();
+                for(int i=1; i<lotto.length; i++){
+                    list.add(Integer.parseInt(lotto[i]));
+                }
+
+                Collections.sort(list);
+
+                int[] arr = new int[6];
+                boolean[] visited = new boolean[list.size()];
+
+                dfs(0,0,list, arr, visited);
+                sb.append("\n");
+
+            }
+
+            System.out.println(sb);
+
+
+
+
+
+        }
+
+        static void dfs(int depth, int start, List<Integer> list, int[] arr, boolean[] visited){
+            if(depth == 6){
+                for(int i=0; i<6; i++){
+                    sb.append(arr[i]).append(" ");
+                }
+                sb.append("\n");
+                return;
+            }
+
+            for(int i=start; i<list.size(); i++){
+                int cur = list.get(i);
+                if(visited[i]) continue;
+
+                visited[i] = true;
+                arr[depth] = cur;
+                dfs(depth+1, i+1, list,arr,visited);
+                visited[i] = false;
+
             }
 
 
-        }
-    }
 
-    static void f(int dp, int start) throws IOException {
-        if(dp==6){
-            for(int i=0; i<K; i++){
-                if(check[i]){
-                    System.out.print(arr[i]+" ");
-                }
-            }
-            System.out.println();
+
         }
-        for(int i= start; i<K; i++){
-            check[i]=true;
-            f(dp+1,i+1);
-            check[i] = false;
-        }
+
 
     }
-
-}
