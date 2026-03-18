@@ -1,57 +1,55 @@
-import java.io.*;
-import java.util.StringTokenizer;
+    import java.io.*;
+    import java.sql.SQLOutput;
+    import java.util.*;
 
-public class Main {
-    static int N = 0;
-    static int S = 0;
-    static int[] arr;
+    public class Main {
 
-    static int result =0;
+        static StringBuilder sb;
+        static int answer = 0;
+        static int N, S;
 
+        static int[] arr;
+        public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) throws IOException {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+            StringTokenizer st = new StringTokenizer(br.readLine());
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        S = Integer.parseInt(st.nextToken());
+            N = Integer.parseInt(st.nextToken());
+            S = Integer.parseInt(st.nextToken());
 
-        arr = new int[N];
+            arr = new int[N];
 
-        StringTokenizer st2 = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
 
-        for(int i=0; i<N; i++){
-            arr[i] = Integer.parseInt(st2.nextToken());
-        }
-
-        dfs(0,0);
-
-        if( S == 0){
-            result--;
-        }
-
-        bw.write(result+"");
-
-
-
-
-        br.close();
-        bw.flush();
-        bw.close();
-
-    }
-
-    public static void dfs(int depth, int sum){
-        if(depth == N){
-            if(sum == S){
-                result ++;
+            for(int i=0; i<N; i++){
+                arr[i] = Integer.parseInt(st.nextToken());
             }
-            return;
+
+            dfs(0, 0);
+
+            if(S==0){
+                answer--;
+            }
+            System.out.println(answer);
         }
 
-        dfs(depth +1, sum + arr[depth]);
-        dfs(depth +1, sum);
+
+        static void dfs(int idx, int sum){
+            if(idx == N){
+                if(sum==S) answer++;
+                return;
+            }
+
+
+
+            dfs(idx+1, sum);
+
+            dfs(idx+1, sum+arr[idx]);
+        }
+
+
+
+
     }
-}
