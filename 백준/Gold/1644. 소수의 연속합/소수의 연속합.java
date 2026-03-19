@@ -1,65 +1,69 @@
-    import java.io.BufferedReader;
-    import java.io.IOException;
-    import java.io.InputStreamReader;
+    import java.io.*;
+    import java.sql.SQLOutput;
     import java.util.*;
 
     public class Main {
+
         public static void main(String[] args) throws IOException {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
             int N = Integer.parseInt(br.readLine());
 
-            if(N<2){
+            List<Integer> primes = new ArrayList<>();
+
+
+            for(int i=2; i<=N; i++){
+                boolean check = true;
+                for(int j=2; j<=Math.sqrt(i); j++){
+                    if(i % j == 0){
+                        check = false;
+                        break;
+                    }
+                }
+                if(check){
+                    primes.add(i);
+                }
+            }
+
+            if(N < 2){
                 System.out.println(0);
                 return;
             }
 
-            List<Integer> list = new ArrayList<>();
+            int start = 0;
+            int end = 1;
 
-            for (int i = 2; i <= N; i++) {
-                boolean isPrime = true;
-                for (int j = 2; j <= Math.sqrt(i); j++) {
-                    if (i % j == 0) {
-                        isPrime = false;
+            int sum = primes.get(0);
+
+            int answer = 0;
+
+            while(start <= end){
+
+
+
+                if(sum < N){
+                    if(end >= primes.size()){
                         break;
                     }
-                }
-                if (isPrime) {
-                    list.add(i);
-                }
-            }
-
-            int[] arr = new int[list.size()];
-
-            for(int i=0; i<list.size(); i++){
-                arr[i] = list.get(i);
-            }
-
-
-            int start = 0;
-            int end = 0;
-            int sum = 0;
-            int count = 0;
-            while(true){
-                if(sum >= N){
-                    if(sum==N){
-                        count++;
-                    }
-                    sum -= arr[start++];
+                    sum+=primes.get(end);
+                    end++;
                 }else{
-                    if(end == arr.length) break;
-                    sum += arr[end++];
+                    if(sum==N) answer++;
+                    sum-=primes.get(start);
+                    start++;
                 }
+
+
             }
+            System.out.println(answer);
 
-            System.out.println(count);
 
 
-            br.close();
 
 
         }
+
     }
