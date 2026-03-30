@@ -1,32 +1,31 @@
-import java.io.*;
-import java.util.PriorityQueue;
+    import java.io.*;
+    import java.sql.SQLOutput;
+    import java.util.*;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int N = Integer.parseInt(br.readLine());
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    public class Main {
+        public static void main(String[] args) throws IOException {
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
-        for(int i=0; i<N; i++){
-            int x = Integer.parseInt(br.readLine());
+            int N  = Integer.parseInt(br.readLine());
 
-            if(x>0){
-                minHeap.add(x);
-            }else if(x==0 && !minHeap.isEmpty()){
-                int X = minHeap.poll();
-                bw.write(X+"\n");
-            }else if(x==0 && minHeap.isEmpty()){
-                bw.write("0"+"\n");
+            PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+            for(int i=0; i<N; i++){
+                int x = Integer.parseInt(br.readLine());
+                if(x == 0){
+                    if(pq.isEmpty()){
+                        System.out.println(0);
+                    }else{
+                        System.out.println(pq.poll());
+                    }
+                }else{
+                    pq.add(x);
+                }
             }
+
         }
 
-
-
-
-        br.close();
-        bw.flush();
-        bw.close();
     }
-}
