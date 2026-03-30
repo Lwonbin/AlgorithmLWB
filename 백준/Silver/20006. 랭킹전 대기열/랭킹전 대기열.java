@@ -1,86 +1,84 @@
-import java.io.*;
-import java.util.*;
+    import java.io.*;
+    import java.sql.SQLOutput;
+    import java.util.*;
 
-public class Main {
-    public static class Room{
-        int level;
-        int count;
-        ArrayList<Player> players = new ArrayList<Player>();
+    public class Main {
 
-        Room (int level, Player player) {
-            this.level = level;
-            this.players.add(player);
-            this.count = 1;
-        }
-    }
+        static class player{
+            int level;
+            String name;
 
-    // 플레이어 클래스
-    public static class Player implements Comparable<Player> {
-        int level;      // 플레이어 레벨
-        String name;    // 플레이어 이름
-
-        Player (int level, String name) {
-            this.level = level;
-            this.name = name;
+            player(int level, String name){
+                this.level = level;
+                this.name = name;
+            }
         }
 
-        // 이름 사전순으로 정렬
-        @Override
-        public int compareTo(Player p) {
-            return (this.name).compareTo(p.name);
+        static class room{
+            int level;
+            List<player> players = new ArrayList<>();
+
+            room(int level){
+                this.level = level;
+            }
         }
-    }
+        public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+            StringTokenizer st= new StringTokenizer(br.readLine());
 
-        int p = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
+            int p = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
 
-        Deque<Room> dq = new ArrayDeque<>();
+            List<room> lists = new ArrayList<>();
 
-        for(int i=0; i<p; i++) {
-            st = new StringTokenizer(br.readLine());
-            int level = Integer.parseInt(st.nextToken());
-            String name = st.nextToken();
 
-            boolean check = false;
+            for(int i=0 ;i<p; i++){
+                st = new StringTokenizer(br.readLine());
+                int l = Integer.parseInt(st.nextToken());
+                String n = st.nextToken();
 
-            for (Room room : dq) {
-                if (Math.abs(level - room.level) <= 10 & room.count < m) {
-                    room.players.add(new Player(level, name));
-                    room.count += 1;
-                    check = true;
-                    break;
+                player ply = new player(l, n);
+                boolean check = false;
+                for(room cur : lists){
+                    if(cur.players.size() < m && cur.level -10 <= l && l <= cur.level +10){
+                        cur.players.add(ply);
+                        check = true;
+                        break;
+                    }
+                }
+
+                if(!check){
+                    room Room = new room(l);
+                    lists.add(Room);
+                    Room.players.add(ply);
                 }
             }
 
-            if (!check) {
-                dq.addLast(new Room(level, new Player(level, name)));
+
+            for(int i=0; i<lists.size(); i++){
+                room curRoom = lists.get(i);
+                Collections.sort(curRoom.players, (o1,o2) -> {
+                    return o1.name.compareTo(o2.name);
+                });
+                if(curRoom.players.size() == m){
+                    System.out.println("Started!");
+                    for(player cur : curRoom.players){
+                        System.out.println(cur.level+" "+cur.name);
+                    }
+                }else{
+                    System.out.println("Waiting!");
+                    for(player cur : curRoom.players){
+                        System.out.println(cur.level+" "+cur.name);
+                    }
+                }
             }
+
+
 
         }
 
-        for(Room room : dq){
-            if(room.count ==m){
-                System.out.println("Started!");
-            }else{
-                System.out.println("Waiting!");
-            }
-
-            Collections.sort(room.players);
-
-
-            for(int i=0; i<room.players.size(); i++){
-                System.out.printf("%d %s\n", room.players.get(i).level, room.players.get(i).name);
-            }
-
-
-        }
     }
-}
