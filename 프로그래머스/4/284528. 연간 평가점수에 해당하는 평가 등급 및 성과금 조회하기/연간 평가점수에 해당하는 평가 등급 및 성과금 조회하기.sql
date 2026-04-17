@@ -1,0 +1,25 @@
+-- 코드를 작성해주세요
+
+select A.EMP_NO, A.EMP_NAME, B.GRADE,
+
+CASE
+    WHEN B.GRADE = 'S' THEN A.SAL * 0.2
+    WHEN B.GRADE = 'A' THEN A.SAL * 0.15
+    WHEN B.GRADE = 'B' THEN A.SAL * 0.1
+    WHEN B.GRADE = 'C' THEN A.SAL * 0
+
+END AS BONUS
+
+
+from HR_EMPLOYEES A join 
+
+(select EMP_NO, AVG(SCORE) as scoreAVG,
+ CASE
+    WHEN AVG(SCORE) >= 96 THEN 'S'
+    WHEN AVG(SCORE) >= 90 THEN 'A'
+    WHEN AVG(SCORE) >= 80 THEN 'B'
+    WHEN AVG(SCORE) < 80 THEN 'C'
+END AS GRADE
+ from HR_GRADE group by EMP_NO) B
+ 
+ on A.EMP_NO = B.EMP_NO
